@@ -73,7 +73,7 @@ function addMessage(parent, template, message) {
 
 function disable_form() {
     $("#query_input").attr("disabled", "disabled");
-    $("#query_input").attr("placeholder", "応答を待っています…");
+    $("#query_input").attr("placeholder", "相手が書き込んでいます…");
     $("#send_btn").addClass("disabled");
     $('#send_btn').attr("disabled", "disabled");
 }
