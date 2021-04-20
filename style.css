@@ -11,12 +11,12 @@ html {
 }
 
 .chat {
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 
 .card {
-  height: calc(100vh - 15px - 15px);
+  height: calc(100vh - 12px - 12px);
   border-radius: 15px !important;
   background-color: rgba(0, 0, 0, 0.4) !important;
 }
@@ -40,6 +40,7 @@ html {
 .card-footer {
   border-radius: 0 0 15px 15px !important;
   border-top: 0 !important;
+  padding: 12px;
 }
 
 .container {
@@ -59,7 +60,7 @@ html {
 }
 
 #query_input {
-  border-radius: 15px 0 0 15px !important;
+  border-radius: 10px 0 0 10px !important;
   background-color: rgba(255, 255, 255, 1.0) !important;
   border: 0 !important;
   color: black !important;
@@ -77,15 +78,20 @@ html {
 }
 
 .attach_btn {
-  border-radius: 15px 0 0 15px !important;
-  background-color: rgba(255, 255, 255, 1.0) !important;
-  border: 0 !important;
-  color: black !important;
+
+	border-radius: 10px 0 0 10px !important;
+	background-color: rgba(0,0,0,0.3) !important;
+  border:0 !important;
+  color: white !important;
   cursor: pointer;
+  width: 60px;
+  display: inline-block;
+  text-align: center;
+  line-height: 48px;
 }
 
 .send_btn {
-  border-radius: 0 15px 15px 0 !important;
+  border-radius: 0 10px 10px 0 !important;
   background-color: rgba(0, 0, 0, 0.3) !important;
   border: 0 !important;
   color: white !important;

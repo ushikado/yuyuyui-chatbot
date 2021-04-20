@@ -63,10 +63,10 @@ function addMessage(parent, template, message) {
     template.find(".msg_time").text(time);
     parent.append(template);
 
-    template[0].classList.add('animated', 'fadeInUp');
+    template.addClass('animated').addClass('fadeInUp');
     setTimeout(function() {
-        template[0].classList.remove('fadeInUp');
-        }, 1000);
+        template.removeClass('fadeInUp');
+    }, 1000);
 
     $(".scroll-area").mCustomScrollbar('scrollTo', 'bottom', {scrollInertia:300});
 }
@@ -81,6 +81,7 @@ function disable_form() {
 function enable_form() {
     $("#query_input").attr("disabled", null);
     $("#query_input").attr("placeholder", null);
+    $("#query_input").focus();
     $("#send_btn").attr("disabled", null);
     $('#send_btn').on("click", sendButtonClicked);
 }
