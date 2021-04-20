@@ -1,6 +1,6 @@
 $(".scroll-area").mCustomScrollbar();
 
-$('#send_btn').on("click", function() {
+function sendButtonClicked() {
     var query = $("#query_input").val().trim()
     if (query) {
         $("#query_input").val("")
@@ -8,20 +8,15 @@ $('#send_btn').on("click", function() {
         addUserMessage(query);
         sendRequest(request);
     }
-});
-
-$("#query_input").keypress(function(e){
-    if(e.which == 13){
-        /* Enter key */
-        $("#send_btn").click();
-    }
-});
+}
 
 function sendRequest(request) {
+    disable_form();
     $.ajax({type: "post",
             contentType: 'application/json',
-            dataType: "json",
             data: JSON.stringify(request),
+            dataType: "text",
+            timespan: 10000,
             url: 'https://asia-northeast2-yuyuyui-script-search-20200915.cloudfunctions.net/chatbot'})
     .done(function(response) {
         try {
@@ -38,9 +33,15 @@ function sendRequest(request) {
         }
     })
     .always(function() {
+        enable_form();
     })
-
 }
+
+$("#query_input").keypress(function(e){
+    if(e.which == 13){
+        $("#send_btn").click();
+    }
+});
 
 function addUserMessage(message) {
     var parent = $("#user_message_template").parent()
@@ -70,6 +71,20 @@ function addMessage(parent, template, message) {
     $(".scroll-area").mCustomScrollbar('scrollTo', 'bottom', {scrollInertia:300});
 }
 
+function disable_form() {
+    $("#query_input").attr("disabled", "disabled");
+    $("#query_input").attr("placeholder", "応答を待っています…");
+    $("#send_btn").addClass("disabled");
+    $('#send_btn').attr("disabled", "disabled");
+}
+
+function enable_form() {
+    $("#query_input").attr("disabled", null);
+    $("#query_input").attr("placeholder", null);
+    $("#send_btn").attr("disabled", null);
+    $('#send_btn').on("click", sendButtonClicked);
+}
+
 var initial_utterances = [
     "こんにちは〜、乃木園子って言います〜。",
     "こんばんわ～。いい月が出ているねぇ。",
@@ -97,3 +112,5 @@ var initial_utterances = [
     "は～い、そのっちだよ～。",
 ];
 addBotMessage(initial_utterances[Math.floor(Math.random() * initial_utterances.length)]);
+
+enable_form();
