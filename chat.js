@@ -12,6 +12,12 @@ function isMobile() {
     return ua.indexOf('iPhone') > -1 || ua.indexOf('iPad') > -1 || ua.indexOf('Android') > -1;
 }
 
+$("#query_input").keypress(function(e){
+    if(e.which == 13){
+        $("#send_btn").click();
+    }
+});
+
 function sendButtonClicked() {
     let query = $("#query_input").val().trim()
     if (query) {
@@ -57,12 +63,6 @@ function sendRequest(request) {
         enableForm();
     })
 }
-
-$("#query_input").keypress(function(e){
-    if(e.which == 13){
-        $("#send_btn").click();
-    }
-});
 
 function addUserMessage(message) {
     const parent = $("#user_message_template").parent()
