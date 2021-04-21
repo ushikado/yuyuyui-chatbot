@@ -17,6 +17,7 @@ html {
 
 .card {
   height: calc(100vh - 12px - 12px);
+  height: calc(var(--viewportHeight, 100vh) - 12px - 12px);
   border-radius: 15px !important;
   background-color: rgba(0, 0, 0, 0.4) !important;
 }
@@ -60,11 +61,11 @@ html {
 }
 
 #query_input {
-  border-radius: 10px 0 0 10px !important;
+  border-radius: 0 0 0 0 !important;
   background-color: rgba(255, 255, 255, 1.0) !important;
   border: 0 !important;
   color: black !important;
-  height: 60px !important;
+  height: 48px !important;
   overflow-y: auto;
 }
 
@@ -77,17 +78,25 @@ html {
   opacity: 70%;
 }
 
-.attach_btn {
-
+#attach_btn {
 	border-radius: 10px 0 0 10px !important;
 	background-color: rgba(0,0,0,0.3) !important;
   border:0 !important;
   color: white !important;
   cursor: pointer;
-  width: 60px;
+  width: 36px;
   display: inline-block;
   text-align: center;
-  line-height: 48px;
+  line-height: 36px;
+}
+
+#attach_btn:focus {
+  box-shadow: none !important;
+  outline: 0px !important;
+}
+
+#attach_btn:disabled {
+  opacity: 70%;
 }
 
 .send_btn {
@@ -96,10 +105,10 @@ html {
   border: 0 !important;
   color: white !important;
   cursor: pointer;
-  width: 60px;
+  width: 48px;
   display: inline-block;
   text-align: center;
-  line-height: 48px;
+  line-height: 36px;
 }
 
 .send_btn[disabled] {

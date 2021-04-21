@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="utf-8">
     <!-- This template is from https://bootsnipp.com/snippets/nNg98 -->
@@ -10,9 +10,6 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
   </head>
   <!--Coded With Love By Mutiullah Samim-->
   <body>
@@ -23,7 +20,7 @@
             <div class="card-header msg_head">
               <div class="d-flex bd-highlight">
                 <div class="img_cont">
-                  <img src="icon/乃木 園子.png" class="rounded-circle user_img">
+                  <img src="icon/乃木 園子.png" alt="乃木 園子" class="rounded-circle user_img">
                 </div>
                 <div class="user_info">
                   <span>乃木 園子</span>
@@ -34,7 +31,7 @@
               </div>
             </div>
             <div class="card-body msg_card_body scroll-area">
-              <div class="d-flex justify-content-start mb-4" id="bot_message_template" style="display: none !important;">
+              <div class="d-flex justify-content-start mt-2 mb-4" id="bot_message_template" style="display: none !important;">
                 <div class="img_cont_msg">
                   <img src="" alt="" class="rounded-circle user_img_msg">
                 </div>
@@ -43,7 +40,7 @@
                   <span class="msg_time"><!-- timestamp --></span>
                 </div>
               </div>
-              <div class="d-flex justify-content-end mb-4" id="user_message_template" style="display: none !important;">
+              <div class="d-flex justify-content-end mt-2 mb-4" id="user_message_template" style="display: none !important;">
                 <div class="msg_cotainer_send">
                   <span class="msg_body"><!-- message --></span>
                   <span class="msg_time"><!-- timestamp --></span>
@@ -51,10 +48,15 @@
               </div>
             </div>
             <div class="card-footer">
-              <div class="input-group">
-                <input name="query" id="query_input" class="form-control type_msg" maxlength="70"></input>
+              <div class="input-group dropend">
+                <button type="button" class="btn" id="attach_btn" aria-label="ランダムに入力">
+                  <i class="fas fa-random"></i>
+                </button>
+                <input name="query" id="query_input" class="form-control type_msg" maxlength="70" autocomplete="off" aria-label="ここにメッセージを入力"></input>
                 <div class="input-group-append">
-                  <span class="input-group-text send_btn" id="send_btn"><i class="fas fa-location-arrow"></i></span>
+                  <span class="input-group-text send_btn" id="send_btn" aria-label="送信">
+                    <i class="fas fa-location-arrow"></i>
+                  </span>
                 </div>
               </div>
             </div>
@@ -62,6 +64,10 @@
         </div>
       </div>
     </div>
-  </body>
-  <script type="text/javascript" src="chat.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+    <script type="text/javascript" src="chat.js"></script>
+    </body>
 </html>

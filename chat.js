@@ -1,7 +1,14 @@
 $(".scroll-area").mCustomScrollbar();
 
+function windowResized() {
+    const viewportHeight = window.innerHeight;
+    document.documentElement.style.setProperty('--viewportHeight', `${viewportHeight}px`);
+}
+window.addEventListener('resize', windowResized);
+windowResized();
+
 function sendButtonClicked() {
-    var query = $("#query_input").val().trim()
+    let query = $("#query_input").val().trim()
     if (query) {
         $("#query_input").val("")
         request = { "character": "乃木 園子", "query": query };
@@ -11,29 +18,38 @@ function sendButtonClicked() {
 }
 
 function sendRequest(request) {
-    disable_form();
+    disableForm();
     $.ajax({type: "post",
             contentType: 'application/json',
             data: JSON.stringify(request),
             dataType: "text",
-            timespan: 10000,
+            timespan: 30000,
             url: 'https://asia-northeast2-yuyuyui-script-search-20200915.cloudfunctions.net/chatbot'})
     .done(function(response) {
         try {
             addBotMessage(response);
         } catch (error) {
-            addBotMessage("（応答の処理中にエラーが発生しました）");
+            addBotMessage("エラー：応答の処理中にエラーが発生しました。");
         }
     })
-    .fail(function(jqXHR, textStatus) {
-        if (jqXHR.status == 400) {
-            addBotMessage("（不正なリクエストが渡されました）");
-        } else if (jqXHR.status == 500) {
-            addBotMessage("（サーバーでエラーが発生しました）");
+    .fail(function(jqXHR, textStatus, errorThrown) {
+        const error_descriptions = {
+            0:   "ネットワークに接続できていない可能性があります。",
+            400: "入力を読み取れませんでした。",
+            408: "チャットが混み合っている可能性があります。",
+            500: "サーバーでエラーが発生しました。",
+        };
+        let message = "";
+        if (error_descriptions[jqXHR.status]) {
+            message += "エラー：" + error_descriptions[jqXHR.status];
+        } else {
+            message += "エラー";
         }
+        message += `(${jqXHR.status}, ${textStatus}, ${errorThrown.message})`;
+        addBotMessage(message);
     })
     .always(function() {
-        enable_form();
+        enableForm();
     })
 }
 
@@ -44,21 +60,21 @@ $("#query_input").keypress(function(e){
 });
 
 function addUserMessage(message) {
-    var parent = $("#user_message_template").parent()
-    var template = $("#user_message_template").clone().attr('id', null).attr('style', null);
+    const parent = $("#user_message_template").parent()
+    const template = $("#user_message_template").clone().attr('id', null).attr('style', null);
     addMessage(parent, template, message);
 }
 
 function addBotMessage(message, character="乃木 園子") {
-    var parent = $("#bot_message_template").parent()
-    var template = $("#bot_message_template").clone().attr('id', null).attr('style', null);
+    const parent = $("#bot_message_template").parent()
+    const template = $("#bot_message_template").clone().attr('id', null).attr('style', null);
     template.find(".user_img_msg").attr("src", "icon/" + character + ".png")
                                   .attr("alt", character);
     addMessage(parent, template, message);
 }
 
 function addMessage(parent, template, message) {
-    var time = new Date().toLocaleTimeString("en-US", {hour12: true, timeStyle: "short"});
+    const time = new Date().toLocaleTimeString("en-US", {hour12: true, timeStyle: "short"});
     template.find(".msg_body").text(message);
     template.find(".msg_time").text(time);
     parent.append(template);
@@ -71,22 +87,51 @@ function addMessage(parent, template, message) {
     $(".scroll-area").mCustomScrollbar('scrollTo', 'bottom', {scrollInertia:300});
 }
 
-function disable_form() {
+function disableForm() {
     $("#query_input").attr("disabled", "disabled");
     $("#query_input").attr("placeholder", "相手が書き込んでいます…");
     $("#send_btn").addClass("disabled");
     $('#send_btn').attr("disabled", "disabled");
+    $('#send_btn').off("click");
+    $('#attach_btn').attr("disabled", "disabled");
+    $('#attach_btn').off("click");
 }
 
-function enable_form() {
+function enableForm() {
     $("#query_input").attr("disabled", null);
     $("#query_input").attr("placeholder", null);
     $("#query_input").focus();
     $("#send_btn").attr("disabled", null);
     $('#send_btn').on("click", sendButtonClicked);
+    $('#attach_btn').on("click", fillSuggestedQueries);
+    $('#attach_btn').attr("disabled", null);
 }
 
-var initial_utterances = [
+function fillSuggestedQueries() {
+    const suggested_queries = [
+        "おなかがすいてきた。",
+        "お菓子食べる？",
+        "うどん食べに行かない？",
+        "うどんと蕎麦どっちが好き？",
+        "お昼ごはんは何食べる？",
+        "一緒にうどん作る？",
+        "晩ごはんは何にしようかな。",
+        "一番好きなのは誰？",
+        "好きです！付き合ってください！",
+        "デートの行き先はどこにしようかな。",
+        "四国でおすすめの観光地は？",
+        "もうすぐちょうさ祭りだね！",
+        "観音寺の住職って知ってる？",
+        "琴弾廻廊には行ったことある？",
+        "そろそろ眠くなってきた。",
+        "髪にバーテックス付いてたよ。",
+        "勇者部に新入部員は入ったのかな？",
+        "勇者部に新入部員は入ったのかな？",
+    ];
+    $("#query_input").val(suggested_queries[Math.floor(Math.random() * suggested_queries.length)]);
+}
+
+const initial_utterances = [
     "こんにちは〜、乃木園子って言います〜。",
     "こんばんわ～。いい月が出ているねぇ。",
     "むにゃ……ふあ……おはよーございます〜。",
@@ -114,4 +159,4 @@ var initial_utterances = [
 ];
 addBotMessage(initial_utterances[Math.floor(Math.random() * initial_utterances.length)]);
 
-enable_form();
+enableForm();
