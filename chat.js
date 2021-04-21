@@ -133,7 +133,7 @@ function fillSuggestedQueries() {
         "今日はどんなことしよう？",
         "昨日の授業はどうだった？",
         "私を慰めて。",
-        "お菓子づくりのコツ",
+        "お菓子づくりのコツ？",
     ];
     $("#query_input").val(suggested_queries[Math.floor(Math.random() * suggested_queries.length)]);
     $("#query_input").focus();
