@@ -7,6 +7,11 @@ function windowResized() {
 window.addEventListener('resize', windowResized);
 windowResized();
 
+function isMobile() {
+    const ua = navigator.userAgent;
+    return ua.indexOf('iPhone') > -1 || ua.indexOf('iPad') > -1 || ua.indexOf('Android') > -1;
+}
+
 function sendButtonClicked() {
     let query = $("#query_input").val().trim()
     if (query) {
@@ -100,7 +105,7 @@ function disableForm() {
 function enableForm() {
     $("#query_input").attr("disabled", null);
     $("#query_input").attr("placeholder", null);
-    $("#query_input").focus();
+    if (!isMobile()) { $("#query_input").focus(); }
     $("#send_btn").attr("disabled", null);
     $('#send_btn').on("click", sendButtonClicked);
     $('#attach_btn').on("click", fillSuggestedQueries);
@@ -136,7 +141,7 @@ function fillSuggestedQueries() {
         "お菓子づくりのコツ？",
     ];
     $("#query_input").val(suggested_queries[Math.floor(Math.random() * suggested_queries.length)]);
-    $("#query_input").focus();
+    if (!isMobile()) { $("#query_input").focus(); }
 }
 
 const initial_utterances = [
