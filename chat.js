@@ -24,7 +24,7 @@ if (!character) {
 function characterButtonClicked() {
     if (character != $(this).text().trim()) {
         character = $(this).text().trim()
-        location.href = `./#${character}`
+        location.hash = `#${character}`
         location.reload();
     }
 }
