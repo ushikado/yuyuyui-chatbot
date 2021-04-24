@@ -139,7 +139,7 @@ html {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-.user_img {
+.user_img_header {
   height: 70px;
   width: 70px;
 }
@@ -181,9 +181,8 @@ html {
   margin-left: 15px;
 }
 
-.user_info span {
-  font-size: 22px;
-  color: white;
+.user_info button {
+  font-size: 20px;
 }
 
 .user_info p {

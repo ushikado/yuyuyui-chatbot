@@ -20,10 +20,16 @@
             <div class="card-header msg_head">
               <div class="d-flex bd-highlight">
                 <div class="img_cont">
-                  <img src="icon/乃木 園子.png" alt="乃木 園子" class="rounded-circle user_img">
+                  <img src="" alt="" class="rounded-circle user_img user_img_header">
                 </div>
                 <div class="user_info">
-                  <span>乃木 園子</span>
+                  <button class="btn btn-outline-light dropdown-toggle" type="button" id="character_dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    乃木 園子
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="character_dropdown">
+                    <li><a class="dropdown-item character_btn" href="#乃木 園子">乃木 園子</a></li>
+                    <li><a class="dropdown-item character_btn" href="#弥勒 夕海子">弥勒 夕海子</a></li>
+                  </ul>
                   <p>
                     非公式のチャットボットです。<wbr>会話内容は記録されません。
                   </p>
@@ -33,7 +39,7 @@
             <div class="card-body msg_card_body scroll-area">
               <div class="d-flex justify-content-start mt-2 mb-4" id="bot_message_template" style="display: none !important;">
                 <div class="img_cont_msg">
-                  <img src="" alt="" class="rounded-circle user_img_msg">
+                  <img src="" alt="" class="rounded-circle user_img user_img_msg">
                 </div>
                 <div class="msg_cotainer">
                   <span class="msg_body"><!-- message --></span>

@@ -1,5 +1,7 @@
 $(".scroll-area").mCustomScrollbar();
 
+/* ウィンドウ */
+
 function windowResized() {
     const viewportHeight = window.innerHeight;
     document.documentElement.style.setProperty('--viewportHeight', `${viewportHeight}px`);
@@ -12,6 +14,31 @@ function isMobile() {
     return ua.indexOf('iPhone') > -1 || ua.indexOf('iPad') > -1 || ua.indexOf('Android') > -1;
 }
 
+/* キャラクター選択 */
+
+var character = decodeURIComponent(location.hash.trim().replace("#", ""));
+if (!character) {
+    character = "乃木 園子";
+}
+
+function characterButtonClicked() {
+    if (character != $(this).text().trim()) {
+        character = $(this).text().trim()
+        location.href = `index.html#${character}`
+        location.reload();
+    }
+}
+$(".character_btn").click(characterButtonClicked);
+
+function changeCharacter() {
+    $(".user_img").attr("src", `./icon/${character}.png`)
+                  .attr("alt", character);
+    $("#character_dropdown").text(character);
+}
+changeCharacter();
+
+/* クエリ送信 */
+
 $("#query_input").keypress(function(e){
     if(e.which == 13){
         $("#send_btn").click();
@@ -22,7 +49,7 @@ function sendButtonClicked() {
     let query = $("#query_input").val().trim()
     if (query) {
         $("#query_input").val("")
-        request = { "character": "乃木 園子", "query": query };
+        request = { "character": character, "query": query };
         addUserMessage(query);
         sendRequest(request);
     }
@@ -70,7 +97,7 @@ function addUserMessage(message) {
     addMessage(parent, template, message);
 }
 
-function addBotMessage(message, character="乃木 園子") {
+function addBotMessage(message, ) {
     const parent = $("#bot_message_template").parent()
     const template = $("#bot_message_template").clone().attr('id', null).attr('style', null);
     template.find(".user_img_msg").attr("src", "icon/" + character + ".png")
@@ -144,32 +171,60 @@ function fillSuggestedQueries() {
     if (!isMobile()) { $("#query_input").focus(); }
 }
 
-const initial_utterances = [
-    "こんにちは〜、乃木園子って言います〜。",
-    "こんばんわ～。いい月が出ているねぇ。",
-    "むにゃ……ふあ……おはよーございます〜。",
-    "さぁ、次はどう来るのかな？何が来てもはじき返すよ～！",
-    "こんにちは〜！",
-    "……んん……ん……？あ、寝ちゃってた〜。",
-    "ちょっと話を聞いてみよ～！すみませーん！",
-    "面白そうだけど、やったことないから、できるかな〜？　できなかったらごめんね〜。",
-    "落ち着いて聞いてね。壁の外の秘密……この世界の成り立ちを、教えてあげる……。",
-    "ふぉっふぉっ……なぁに。老いぼれの世迷い言じゃ。話し半分で聞いとけばええ。",
-    "乃木園子だよ〜。いつもお姉さんにはお世話になってます〜。",
-    "はいはーい！この乃木園子にお任せあれ〜！",
-    "乃木園子と申します。どうぞよろしくお願い致します。",
-    "はい、紅茶をどうぞ〜。乃木家のオリジナルブレンドです〜。",
-    "じゃあ、今日の私はハッピネス園子アルティメットで〜♪",
-    "おいでやす、若女将の園子どす。",
-    "全力で来〜い！　でなければ、このダークネス園子プロトタイプは倒せぬぞ〜！",
-    "かーっかっかっ！皆の者、園子たちにひれ伏すのじゃ～！",
-    "それでは、作演出、乃木園子と乃木園子の、愛憎渦巻く喜劇の舞台をお楽しみください！",
-    "ダブル園子で頑張るんよ〜。",
-    "蟻さーん。ＨＥＹＨＥＹ園子だよー。",
-    "フヘヘ……その辺は、この情報屋園子にお任せくだせえ……ダンナ。",
-    "今日は何して遊ぼうか〜。",
-    "は～い、そのっちだよ～。",
-];
-addBotMessage(initial_utterances[Math.floor(Math.random() * initial_utterances.length)]);
+const initial_utterances = {
+    "乃木 園子": [
+        "こんにちは〜、乃木園子って言います〜。",
+        "こんばんわ～。いい月が出ているねぇ。",
+        "むにゃ……ふあ……おはよーございます〜。",
+        "さぁ、次はどう来るのかな？何が来てもはじき返すよ～！",
+        "こんにちは〜！",
+        "……んん……ん……？あ、寝ちゃってた〜。",
+        "ちょっと話を聞いてみよ～！すみませーん！",
+        "面白そうだけど、やったことないから、できるかな〜？　できなかったらごめんね〜。",
+        "落ち着いて聞いてね。壁の外の秘密……この世界の成り立ちを、教えてあげる……。",
+        "ふぉっふぉっ……なぁに。老いぼれの世迷い言じゃ。話し半分で聞いとけばええ。",
+        "乃木園子だよ〜。いつもお姉さんにはお世話になってます〜。",
+        "はいはーい！この乃木園子にお任せあれ〜！",
+        "乃木園子と申します。どうぞよろしくお願い致します。",
+        "はい、紅茶をどうぞ〜。乃木家のオリジナルブレンドです〜。",
+        "じゃあ、今日の私はハッピネス園子アルティメットで〜♪",
+        "おいでやす、若女将の園子どす。",
+        "全力で来〜い！　でなければ、このダークネス園子プロトタイプは倒せぬぞ〜！",
+        "かーっかっかっ！皆の者、園子たちにひれ伏すのじゃ～！",
+        "それでは、作演出、乃木園子と乃木園子の、愛憎渦巻く喜劇の舞台をお楽しみください！",
+        "ダブル園子で頑張るんよ〜。",
+        "蟻さーん。ＨＥＹＨＥＹ園子だよー。",
+        "フヘヘ……その辺は、この情報屋園子にお任せくだせえ……ダンナ。",
+        "今日は何して遊ぼうか〜。",
+        "は～い、そのっちだよ～。",
+    ],
+    "弥勒 夕海子": [
+        "ホホホホ！　よろしくてよ。この弥勒家の末裔に、全てお任せあれ！",
+        "ダイヤでも真珠でもトリュフでも石油でも、この弥勒夕海子にお任せあれ！",
+        "弥勒夕海子、推参!!!",
+        "ごきげんよう皆様！勇者部の涼風、弥勒夕海子ですわよ～♪",
+        "弥勒夕海子…と。ふふん、弥勒家にふさわしい優美かつ荘厳な字で書けましたわ。",
+        "こうなればいよいよ！　この弥勒夕海子の出番と相成りましてございますわね！",
+        "誰もが待ちわびていたことでしょう。この弥勒夕海子の登場を!!",
+        "わたくしは弥勒夕海子。４月２７日に高知県にて出生し、今は中学３年生です。",
+        "よろしい。この、弥勒夕海子。皆様の昼食コンシェルジュになりましてよ！",
+        "ここにいらしたということは、わたくしのティーを御所望なのでしょう？",
+        "はい！　弥勒夕海子ですわ！",
+        "仕方ありませんわね、弥勒家の実家にあるわたくしの超広い部屋を使っていただいても構いませんわよ？",
+        "ようこそ弥勒家別邸へ！",
+        "では皆さんには代わりに、弥勒家の華麗なる歴史をお聞かせしましょうか？",
+        "ふふん、この程度、弥勒家の血を引くわたくしには朝飯前ですわ！",
+        "気軽に弥勒さんと呼んでくださいまし。弥勒と呼び捨てでもよろしいですわ。",
+        "ところで皆さんにひとつ質問があるのですが。名家・弥勒家の事はご存じでして？",
+        "お耳のお穴かっぽじって聞いておりますわ！弥勒イヤーは地獄耳でしてよ！",
+        "わたくしの優雅なティータイムの邪魔はお控えになって！",
+        "さ、どうぞおかけになって。ささ、御遠慮なさらず。さささ。",
+        "お嬢様といえば何はなくとも優雅なティータイム！アルフレーッド！　お茶菓子の用意を！",
+        "わたくしは、アルフレッドに言ってティーセットを持って来させますわ。",
+        "こうして波の音を聞きながら優雅にティータイムを楽しむことも、心の鍛錬になっていますわ。",
+        "海を眺めながらの優雅なティータイム…わたくしにふさわしいですわ。",
+    ],
+};
+addBotMessage(initial_utterances[character][Math.floor(Math.random() * initial_utterances[character].length)]);
 
 enableForm();
