@@ -24,11 +24,38 @@
                 </div>
                 <div class="user_info">
                   <button class="btn btn-outline-light dropdown-toggle" type="button" id="character_dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    乃木 園子
+                    結城 友奈
                   </button>
-                  <ul class="dropdown-menu" aria-labelledby="character_dropdown">
+                  <ul class="dropdown-menu character_dropdown" aria-labelledby="character_dropdown">
+                    <li><a class="dropdown-item character_btn" href="#結城 友奈">結城 友奈</a></li>
+                    <li><a class="dropdown-item character_btn" href="#東郷 美森">東郷 美森</a></li>
+                    <li><a class="dropdown-item character_btn" href="#犬吠埼 風">犬吠埼 風</a></li>
+                    <li><a class="dropdown-item character_btn" href="#犬吠埼 樹">犬吠埼 樹</a></li>
+                    <li><a class="dropdown-item character_btn" href="#三好 夏凜">三好 夏凜</a></li>
                     <li><a class="dropdown-item character_btn" href="#乃木 園子">乃木 園子</a></li>
+                    <li><a class="dropdown-item character_btn" href="#鷲尾 須美">鷲尾 須美</a></li>
+                    <li><a class="dropdown-item character_btn" href="#三ノ輪 銀">三ノ輪 銀</a></li>
+                    <li><a class="dropdown-item character_btn" href="#乃木 若葉">乃木 若葉</a></li>
+                    <li><a class="dropdown-item character_btn" href="#上里 ひなた">上里 ひなた</a></li>
+                    <li><a class="dropdown-item character_btn" href="#土居 球子">土居 球子</a></li>
+                    <li><a class="dropdown-item character_btn" href="#伊予島 杏">伊予島 杏</a></li>
+                    <li><a class="dropdown-item character_btn" href="#郡 千景">郡 千景</a></li>
+                    <li><a class="dropdown-item character_btn" href="#高嶋 友奈">高嶋 友奈</a></li>
+                    <li><a class="dropdown-item character_btn" href="#白鳥 歌野">白鳥 歌野</a></li>
+                    <li><a class="dropdown-item character_btn" href="#藤森 水都">藤森 水都</a></li>
+                    <li><a class="dropdown-item character_btn" href="#秋原 雪花">秋原 雪花</a></li>
+                    <li><a class="dropdown-item character_btn" href="#古波蔵 棗">古波蔵 棗</a></li>
+                    <li><a class="dropdown-item character_btn" href="#楠 芽吹">楠 芽吹</a></li>
+                    <li><a class="dropdown-item character_btn" href="#加賀城 雀">加賀城 雀</a></li>
                     <li><a class="dropdown-item character_btn" href="#弥勒 夕海子">弥勒 夕海子</a></li>
+                    <li><a class="dropdown-item character_btn" href="#山伏 しずく">山伏 しずく</a></li>
+                    <li><a class="dropdown-item character_btn" href="#山伏 シズク">山伏 シズク</a></li>
+                    <li><a class="dropdown-item character_btn" href="#国土 亜耶">国土 亜耶</a></li>
+                    <li><a class="dropdown-item character_btn" href="#赤嶺 友奈">赤嶺 友奈</a></li>
+                    <li><a class="dropdown-item character_btn" href="#弥勒 蓮華">弥勒 蓮華</a></li>
+                    <li><a class="dropdown-item character_btn" href="#桐生 静">桐生 静</a></li>
+                    <li><a class="dropdown-item character_btn" href="#安芸 真鈴">安芸 真鈴</a></li>
+                    <li><a class="dropdown-item character_btn" href="#花本 美佳">花本 美佳</a></li>
                   </ul>
                   <p>
                     非公式のチャットボットです。<wbr>会話内容は記録されません。
@@ -41,13 +68,19 @@
                 <div class="img_cont_msg">
                   <img src="" alt="" class="rounded-circle user_img user_img_msg">
                 </div>
-                <div class="msg_cotainer">
-                  <span class="msg_body"><!-- message --></span>
+                <div class="msg_cotainer_bot">
+                  <span class="msg_body bot"><!-- message --></span>
                   <span class="msg_time"><!-- timestamp --></span>
                 </div>
               </div>
               <div class="d-flex justify-content-end mt-2 mb-4" id="user_message_template" style="display: none !important;">
-                <div class="msg_cotainer_send">
+                <div class="msg_cotainer_usr">
+                  <span class="msg_body usr"><!-- message --></span>
+                  <span class="msg_time"><!-- timestamp --></span>
+                </div>
+              </div>
+              <div class="d-flex justify-content-center mt-2 mb-4" id="error_message_template" style="display: none !important;">
+                <div class="msg_cotainer_err">
                   <span class="msg_body"><!-- message --></span>
                   <span class="msg_time"><!-- timestamp --></span>
                 </div>
@@ -58,7 +91,7 @@
                 <button type="button" class="btn input-group-append" id="attach_btn" aria-label="ランダムに入力">
                   <i class="fas fa-random"></i>
                 </button>
-                <input name="query" id="query_input" class="form-control type_msg" maxlength="70" autocomplete="off" aria-placeholder="ここにメッセージを入力"></input>
+                <input name="query" id="query_input" class="form-control type_msg" maxlength="200" autocomplete="off" aria-placeholder="ここにメッセージを入力"></input>
                 <div class="input-group-append">
                   <span class="input-group-text send_btn" id="send_btn" aria-label="送信">
                     <i class="fas fa-location-arrow"></i>

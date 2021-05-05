@@ -18,7 +18,7 @@ function isMobile() {
 
 var character = decodeURIComponent(location.hash.trim().replace("#", ""));
 if (!character) {
-    character = "乃木 園子";
+    character = "結城 友奈";
 }
 
 function characterButtonClicked() {
@@ -48,9 +48,21 @@ $("#query_input").keypress(function(e){
 function sendButtonClicked() {
     let query = $("#query_input").val().trim()
     if (query) {
-        $("#query_input").val("")
-        request = { "character": character, "query": query };
+        let context = "";
         addUserMessage(query);
+        $(".msg_body").each(function(){
+            let utterance = $(this).text();
+            if (utterance) {
+                if ($(this).hasClass("bot")) {
+                    context += `<${character}>` + utterance + "</s>";
+                } else if ($(this).hasClass("usr")) {
+                    context += "<某>" + utterance + "</s>"
+                }
+            }
+        });
+        context += "<" + character + ">";
+        $("#query_input").val("")
+        request = { "context": context };
         sendRequest(request);
     }
 }
@@ -67,7 +79,7 @@ function sendRequest(request) {
         try {
             addBotMessage(response);
         } catch (error) {
-            addBotMessage("エラー：応答の処理中にエラーが発生しました。");
+            addErrorMessage("エラー：応答の処理中にエラーが発生しました。");
         }
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
@@ -84,7 +96,7 @@ function sendRequest(request) {
             message += "エラー";
         }
         message += `(${jqXHR.status}, ${textStatus}, ${errorThrown.message})`;
-        addBotMessage(message);
+        addErrorMessage(message);
     })
     .always(function() {
         enableForm();
@@ -97,11 +109,17 @@ function addUserMessage(message) {
     addMessage(parent, template, message);
 }
 
-function addBotMessage(message, ) {
+function addBotMessage(message) {
     const parent = $("#bot_message_template").parent()
     const template = $("#bot_message_template").clone().attr('id', null).attr('style', null);
     template.find(".user_img_msg").attr("src", "icon/" + character + ".png")
                                   .attr("alt", character);
+    addMessage(parent, template, message);
+}
+
+function addErrorMessage(message) {
+    const parent = $("#error_message_template").parent()
+    const template = $("#error_message_template").clone().attr('id', null).attr('style', null);
     addMessage(parent, template, message);
 }
 
@@ -170,7 +188,7 @@ function fillSuggestedQueries() {
     $("#query_input").val(suggested_queries[Math.floor(Math.random() * suggested_queries.length)]);
     if (!isMobile()) { $("#query_input").focus(); }
 }
-
+/*
 const initial_utterances = {
     "乃木 園子": [
         "こんにちは〜、乃木園子って言います〜。",
@@ -226,5 +244,5 @@ const initial_utterances = {
     ],
 };
 addBotMessage(initial_utterances[character][Math.floor(Math.random() * initial_utterances[character].length)]);
-
+*/
 enableForm();
