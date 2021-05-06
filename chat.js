@@ -157,6 +157,24 @@ function enableForm() {
     $('#attach_btn').attr("disabled", null);
 }
 
+function screenShot() {
+    $("#mCSB_1_container").addClass("screenshot_bench");
+    $("#screenShotHeader").text(`ゆゆチャ‐${character}`);
+    html2canvas($("#mCSB_1_container")[0]).then(canvas => {
+        $("#mCSB_1_container").removeClass("screenshot_bench");
+        try {
+            $("#screenShotImage").attr("src", canvas.toDataURL());
+        } catch (e) {
+            let parent = $("#screenShotImage").parent()
+            $("#screenShotImage").replaceWith(canvas)
+            parent.children(canvas).attr("id", "#screenShotImage")
+
+        }
+        (new bootstrap.Modal(document.getElementById("screenShotModal"))).show();
+    });
+}
+$("#screenShotButton").on("click", screenShot);
+
 function fillSuggestedQueries() {
     const suggested_queries = [
         "おなかがすいてきた。",

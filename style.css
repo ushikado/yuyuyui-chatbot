@@ -10,6 +10,20 @@ html {
   /*78e08f*/
 }
 
+.screenshot_bench {
+  background: linear-gradient(to right, #7568a5 , #a5728e);
+  padding: 12px;
+}
+
+.screenshot_bench .screenshot_only {
+  display: block !important;
+}
+
+.screenshot_only {
+  display: none;
+  text-align: center;
+}
+
 .chat {
   margin-top: 12px;
   margin-bottom: 12px;
@@ -179,6 +193,7 @@ html {
   margin-top: auto;
   margin-bottom: auto;
   margin-left: 15px;
+  align-items: center;
 }
 
 .user_info button {
@@ -189,6 +204,10 @@ html {
   font-size: 15px;
   color: rgba(255, 255, 255, 0.6);
   margin-bottom: auto;
+}
+
+.a {
+  font-size: 20px;
 }
 
 .character_dropdown {
@@ -313,4 +332,8 @@ html {
   .contacts_card {
     margin-bottom: 15px !important;
   }
+}
+
+#screenShotImage {
+  max-width: 100%;
 }
