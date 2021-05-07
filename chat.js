@@ -165,14 +165,18 @@ function enableForm() {
 function screenShot() {
     $("#mCSB_1_container").addClass("screenshot_bench");
     $("#screenShotHeader").text($("title").text());
-    html2canvas($("#mCSB_1_container")[0]).then(canvas => {
+    const render_options = {
+        scale: Math.max(window.devicePixelRatio, 2),
+        backgroundColor: null,
+    }
+    html2canvas($("#mCSB_1_container")[0], render_options).then(canvas => {
         $("#mCSB_1_container").removeClass("screenshot_bench");
         try {
             $("#screenShotImage").attr("src", canvas.toDataURL());
         } catch (e) {
-            let parent = $("#screenShotImage").parent()
-            $("#screenShotImage").replaceWith(canvas)
-            parent.children(canvas).attr("id", "#screenShotImage")
+            let parent = $("#screenShotImage").parent();
+            $("#screenShotImage").replaceWith(canvas);
+            parent.children("canvas").attr("id", "#screenShotImage");
 
         }
         (new bootstrap.Modal(document.getElementById("screenShotModal"))).show();
