@@ -15,10 +15,6 @@ html {
   padding: 12px;
 }
 
-.screenshot_bench span {
-  opacity: 0.5;
-}
-
 .screenshot_bench .screenshot_only {
   display: block !important;
 }
@@ -26,6 +22,10 @@ html {
 .screenshot_only {
   display: none;
   text-align: center;
+}
+
+.screenshot_supplemental_text {
+  opacity: 0.5;
 }
 
 .chat {
