@@ -34,6 +34,7 @@ function changeCharacter() {
     $(".user_img").attr("src", `./icon/${character}.png`)
                   .attr("alt", character);
     $("#character_dropdown").text(character);
+    $("title").html(`ゆゆチャ - ${character}`);
 }
 changeCharacter();
 
@@ -84,9 +85,9 @@ function sendRequest(request) {
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
         const error_descriptions = {
-            0:   "ネットワークに接続できていない可能性があります。",
+            0:   "サーバーに接続できません。引き続き発生する場合は5分待ってからお試しください。",
             400: "入力を読み取れませんでした。",
-            408: "チャットが混み合っている可能性があります。",
+            408: "チャットが混み合っている可能性があります。引き続き発生する場合は5分待ってからお試しください。",
             500: "サーバーでエラーが発生しました。",
         };
         let message = "";
@@ -95,13 +96,15 @@ function sendRequest(request) {
         } else {
             message += "エラー";
         }
-        message += `(${jqXHR.status}, ${textStatus}, ${errorThrown.message})`;
+        message += `(${jqXHR.readyState}, ${jqXHR.status}, ${textStatus}, ${errorThrown.message})`;
         addErrorMessage(message);
     })
     .always(function() {
         enableForm();
     })
 }
+
+/* メッセージ追加 */
 
 function addUserMessage(message) {
     const parent = $("#user_message_template").parent()
@@ -147,6 +150,8 @@ function disableForm() {
     $('#attach_btn').off("click");
 }
 
+/* コントロール */
+
 function enableForm() {
     $("#query_input").attr("disabled", null);
     $("#query_input").attr("placeholder", null);
@@ -159,7 +164,7 @@ function enableForm() {
 
 function screenShot() {
     $("#mCSB_1_container").addClass("screenshot_bench");
-    $("#screenShotHeader").text(`ゆゆチャ‐${character}`);
+    $("#screenShotHeader").text($("title").text());
     html2canvas($("#mCSB_1_container")[0]).then(canvas => {
         $("#mCSB_1_container").removeClass("screenshot_bench");
         try {
