@@ -13,6 +13,9 @@
   </head>
   <!--Coded With Love By Mutiullah Samim-->
   <body>
+    <audio>
+        <source id="voice" src="" type="audio/ogg">
+    </audio>
     <div class="container-fluid h-100">
       <div class="row justify-content-center h-100">
         <div class="bs-components col- chat">
@@ -23,7 +26,8 @@
                   <img src="" alt="" class="rounded-circle user_img user_img_header">
                 </div>
                 <div class="user_info">
-                  <div style="width: 100%">
+                  <div class="mb-1" style="width: 100%">
+                    <button class="btn btn-outline-light" id="voiceSwitchButton"><i class="fas fa-volume-up"></i></button>
                     <button class="btn btn-outline-light dropdown-toggle" type="button" id="character_dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                       結城 友奈
                     </button>
@@ -58,10 +62,11 @@
                       <li><a class="dropdown-item character_btn" href="#安芸 真鈴">安芸 真鈴</a></li>
                       <li><a class="dropdown-item character_btn" href="#花本 美佳">花本 美佳</a></li>
                     </ul>
-                    <button class="btn btn-outline-light me-md-2" id="screenShotButton"><i class="fas fa-camera"></i></button>
+                    <button class="btn btn-outline-light" id="screenShotButton"><i class="fas fa-camera"></i></button>
                   </div>
                   <p>
-                    会話内容はあなたにしか見えません。
+                    <span id="voiceOnNotice" class="nobreak"><strong>音声が再生されます。</strong></span>
+                    <span class="nobreak">この会話はあなたにしか見えません。</span>
                   </p>
                 </div>
               </div>

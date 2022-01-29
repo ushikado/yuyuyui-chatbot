@@ -38,6 +38,30 @@ function changeCharacter() {
 }
 changeCharacter();
 
+/* ボイス ON/OFF */
+
+var voiceOn = true;
+
+function setVoiceOn() {
+    $("#voiceSwitchButton i").removeClass("fa-volume-mute");
+    $("#voiceSwitchButton i").addClass("fa-volume-up");
+    $("#voiceOnNotice").css({"display": "inline-block"});
+    voiceOn = true;
+}
+function setVoiceOff() {
+    $("#voiceSwitchButton i").removeClass("fa-volume-up");
+    $("#voiceSwitchButton i").addClass("fa-volume-mute");
+    $("#voiceOnNotice").css({"display": "none"});
+    voiceOn = false;
+}
+$("#voiceSwitchButton").on("click", function(e){
+    if (voiceOn) {
+        setVoiceOff();
+    } else {
+        setVoiceOn();
+    }
+});
+
 /* クエリ送信 */
 
 $("#query_input").keypress(function(e){
@@ -63,13 +87,13 @@ function sendButtonClicked() {
         });
         context += "<" + character + ">";
         $("#query_input").val("")
-        request = { "context": context };
-        sendRequest(request);
+        sendTextRequest(context);
     }
 }
 
-function sendRequest(request) {
-    disableForm();
+function sendTextRequest(context) {
+    disableForm("相手が書き込んでいます…");
+    request = { "context": context };
     $.ajax({type: "post",
             contentType: 'application/json',
             data: JSON.stringify(request),
@@ -78,17 +102,96 @@ function sendRequest(request) {
             url: 'https://asia-northeast2-yuyuyui-script-search-20200915.cloudfunctions.net/chatbot'})
     .done(function(response) {
         try {
-            addBotMessage(response);
+            if (voiceOn) {
+                let callback = function() {
+                    addBotMessage(response);
+                }
+                sendVoiceRequest(response, callback);
+            } else {
+                addBotMessage(response);
+                enableForm();
+            }
         } catch (error) {
             addErrorMessage("エラー：応答の処理中にエラーが発生しました。");
+            enableForm();
+            throw error;
         }
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
         const error_descriptions = {
-            0:   "サーバーに接続できません。引き続き発生する場合は5分待ってからお試しください。",
+            0:   "チャットサーバーに接続できません。引き続き発生する場合は5分待ってからお試しください。",
             400: "入力を読み取れませんでした。",
-            408: "チャットが混み合っている可能性があります。引き続き発生する場合は5分待ってからお試しください。",
-            500: "サーバーでエラーが発生しました。",
+            408: "チャットサーバーが混み合っている可能性があります。引き続き発生する場合は5分待ってからお試しください。",
+            500: "チャットサーバーでエラーが発生しました。",
+        };
+        let message = "";
+        if (error_descriptions[jqXHR.status]) {
+            message += "エラー：" + error_descriptions[jqXHR.status];
+        } else {
+            message += "エラー";
+        }
+        message += `(${jqXHR.readyState}, ${jqXHR.status}, ${textStatus}, ${errorThrown.message})`;
+        addErrorMessage(message);
+        enableForm();
+    })
+    .always(function() {
+    })
+}
+
+function sendVoiceRequest(text, callback) {
+    disableForm("相手が読み上げています…");
+    request = { "character_name": character, "text": text };
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://asia-northeast2-yuyuyui-script-search-20200915.cloudfunctions.net/speech-synthesis", async=true);
+    xhr.setRequestHeader("Content-Type", "application/json")
+    xhr.responseType = 'arraybuffer';
+    xhr.onload = function(e) {
+        let voiceBlob = new Blob([xhr.response], {type: "audio/ogg"});
+        let voiceUrl = URL.createObjectURL(voiceBlob);
+        $("audio #voice").attr("src", voiceUrl);
+        $("audio").get(0).load();
+        $("audio").get(0).play();
+        callback();
+        enableForm();
+    };
+    xhr.onerror = function(e) {
+        addErrorMessage(`音声が取得できませんでした。 (${xhr.statusText})`);
+        callback();
+        enableForm();
+    }
+
+    xhr.send(JSON.stringify(request));
+/*
+    $.ajax({type: "post",
+            contentType: 'application/json',
+            data: JSON.stringify(request),
+            dataType: 'binary',
+            responseType:'arraybuffer',
+            processData: false,
+            timespan: 30000,
+            async: false,
+            url: 'https://asia-northeast2-yuyuyui-script-search-20200915.cloudfunctions.net/speech-synthesis'})
+    .done(function(voiceData) {
+        try {
+            var base64 = window.btoa(unescape(encodeURIComponent(voiceData)));
+            $('audio #voice').attr('src', "data:audio/ogg;base64," + base64);
+            $('audio').get(0).load();
+            $('audio').get(0).play();
+            voice = new Audio("data:audio/ogg;base64," + base64);
+            voice.play();
+            voice = new Audio(voiceData);
+            voice.play();
+        } catch (error) {
+            throw error;
+        }
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+        const error_descriptions = {
+            0:   "音声サーバーに接続できません。引き続き発生する場合はしばらく待ってからお試しください。",
+            400: "音声リクエストを読み取れませんでした。",
+            408: "音声サーバーが混み合っている可能性があります。引き続き発生する場合はしばらく待ってからお試しください。",
+            500: "音声サーバーでエラーが発生しました。",
         };
         let message = "";
         if (error_descriptions[jqXHR.status]) {
@@ -100,8 +203,7 @@ function sendRequest(request) {
         addErrorMessage(message);
     })
     .always(function() {
-        enableForm();
-    })
+    })*/
 }
 
 /* メッセージ追加 */
@@ -140,9 +242,9 @@ function addMessage(parent, template, message) {
     $(".scroll-area").mCustomScrollbar('scrollTo', 'bottom', {scrollInertia:300});
 }
 
-function disableForm() {
+function disableForm(placeholder) {
     $("#query_input").attr("disabled", "disabled");
-    $("#query_input").attr("placeholder", "相手が書き込んでいます…");
+    $("#query_input").attr("placeholder", placeholder);
     $("#send_btn").addClass("disabled");
     $('#send_btn').attr("disabled", "disabled");
     $('#send_btn').off("click");

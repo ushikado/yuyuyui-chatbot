@@ -10,6 +10,10 @@ html {
   /*78e08f*/
 }
 
+span.nobreak {
+  display: inline-block;
+}
+
 .screenshot_bench {
   background: linear-gradient(to right, #7568a5 , #a5728e);
   padding: 12px;
