@@ -43,14 +43,14 @@ changeCharacter();
 var voiceOn = true;
 
 function setVoiceOn() {
-    $("#voiceSwitchButton .on").css({"display": "inline-block"});
-    $("#voiceSwitchButton .off").css({"display": "none"});
+    $("#voiceSwitchButton i").removeClass("fa-volume-mute");
+    $("#voiceSwitchButton i").addClass("fa-volume-up");
     $("#voiceOnNotice").css({"display": "inline-block"});
     voiceOn = true;
 }
 function setVoiceOff() {
-    $("#voiceSwitchButton .on").css({"display": "none"});
-    $("#voiceSwitchButton .off").css({"display": "inline-block"});
+    $("#voiceSwitchButton i").removeClass("fa-volume-up");
+    $("#voiceSwitchButton i").addClass("fa-volume-mute");
     $("#voiceOnNotice").css({"display": "none"});
     voiceOn = false;
 }

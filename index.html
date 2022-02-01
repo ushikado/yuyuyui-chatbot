@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
   </head>
@@ -17,19 +18,16 @@
     </audio>
     <div class="container-fluid h-100">
       <div class="row justify-content-center h-100">
-        <div class="bs-components chat">
+        <div class="bs-components col- chat">
           <div class="card">
-            <div class="card-header msg_head px-2 px-sm-3">
+            <div class="card-header msg_head">
               <div class="d-flex bd-highlight">
                 <div class="img_cont">
                   <img src="" alt="" class="rounded-circle user_img user_img_header">
                 </div>
-                <div class="user_info ms-1 ms-sm-3">
+                <div class="user_info">
                   <div class="mb-1" style="width: 100%">
-                    <button class="btn btn-outline-light" id="voiceSwitchButton">
-                      <svg class="on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M5 7H1v6h4l5 5V2L5 7zm11.36 9.36l-1.41-1.41a6.98 6.98 0 0 0 0-9.9l1.41-1.41a8.97 8.97 0 0 1 0 12.72zm-2.82-2.82l-1.42-1.42a3 3 0 0 0 0-4.24l1.42-1.42a4.98 4.98 0 0 1 0 7.08z"/></svg>
-                      <svg class="off" style="display:none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M15 8.59l-2.12-2.13-1.42 1.42L13.6 10l-2.13 2.12 1.42 1.42L15 11.4l2.12 2.13 1.42-1.42L16.4 10l2.13-2.12-1.42-1.42L15 8.6zM4 7H0v6h4l5 5V2L4 7z"/></svg>
-                    </button>
+                    <button class="btn btn-outline-light" id="voiceSwitchButton"><i class="fas fa-volume-up"></i></button>
                     <button class="btn btn-outline-light dropdown-toggle" type="button" id="character_dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                       結城 友奈
                     </button>
@@ -64,12 +62,10 @@
                       <li><a class="dropdown-item character_btn" href="#安芸 真鈴">安芸 真鈴</a></li>
                       <li><a class="dropdown-item character_btn" href="#花本 美佳">花本 美佳</a></li>
                     </ul>
-                    <button class="btn btn-outline-light" id="screenShotButton">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M0 6c0-1.1.9-2 2-2h3l2-2h6l2 2h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6zm10 10a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>
-                    </button>
+                    <button class="btn btn-outline-light" id="screenShotButton"><i class="fas fa-camera"></i></button>
                   </div>
                   <p>
-                    <span id="voiceOnNotice" class="nobreak">音声が再生されます。</span>
+                    <span id="voiceOnNotice" class="nobreak"><strong>音声が再生されます。</strong></span>
                     <span class="nobreak">この会話はあなたにしか見えません。</span>
                   </p>
                 </div>
@@ -103,12 +99,12 @@
             <div class="card-footer">
               <div class="input-group">
                 <button type="button" class="btn input-group-append" id="attach_btn" aria-label="ランダムに入力">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M6.59 12.83L4.4 15c-.58.58-1.59 1-2.4 1H0v-2h2c.29 0 .8-.2 1-.41l2.17-2.18 1.42 1.42zM16 4V1l4 4-4 4V6h-2c-.29 0-.8.2-1 .41l-2.17 2.18L9.4 7.17 11.6 5c.58-.58 1.59-1 2.41-1h2zm0 10v-3l4 4-4 4v-3h-2c-.82 0-1.83-.42-2.41-1l-8.6-8.59C2.8 6.21 2.3 6 2 6H0V4h2c.82 0 1.83.42 2.41 1l8.6 8.59c.2.2.7.41.99.41h2z"/></svg>
+                  <i class="fas fa-random"></i>
                 </button>
                 <input name="query" id="query_input" class="form-control type_msg" maxlength="200" autocomplete="off" aria-placeholder="ここにメッセージを入力"></input>
                 <div class="input-group-append">
                   <span class="input-group-text send_btn" id="send_btn" aria-label="送信">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M0 0l20 10L0 20V0zm0 8v4l10-2L0 8z"/></svg>
+                    <i class="fas fa-location-arrow"></i>
                   </span>
                 </div>
               </div>
