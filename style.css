@@ -10,10 +10,6 @@ html {
   /*78e08f*/
 }
 
-span.nobreak {
-  display: inline-block;
-}
-
 .screenshot_bench {
   background: linear-gradient(to right, #7568a5 , #a5728e);
   padding: 12px;
@@ -25,11 +21,10 @@ span.nobreak {
 
 .screenshot_only {
   display: none;
-  text-align: center;
 }
 
-.screenshot_supplemental_text {
-  opacity: 0.5;
+.screenshot_bench .screenshot_hide {visibility: hidden;
+  display: none !important;
 }
 
 .chat {

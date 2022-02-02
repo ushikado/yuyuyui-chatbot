@@ -65,21 +65,23 @@
                     <button class="btn btn-outline-light" id="screenShotButton"><i class="fas fa-camera"></i></button>
                   </div>
                   <p>
-                    <span id="voiceOnNotice" class="nobreak"><strong>音声が再生されます。</strong></span>
-                    <span class="nobreak">この会話はあなたにしか見えません。</span>
+                    <span id="autoVoiceOnNotice" style="display: none;">音声が自動再生されます。</span>
+                    <span id="tapVoiceOnNotice" style="display: none;"><i class="far fa-comment-dots"></i> をタップすると音声が再生されます。</span>
+                    &nbsp;
                   </p>
                 </div>
               </div>
             </div>
             <div class="card-body msg_card_body scroll-area">
-              <h2 id="screenShotHeader" class="screenshot_only text-white"><!-- screenshot header --></h2>
-              <span class="screenshot_only screenshot_supplemental_text text-white mb-4"><small>これは非公式のチャットボットです。</small></span>
+              <h2 id="screenShotHeader" class="screenshot_only text-center text-white"><!-- screenshot header --></h2>
+              <p class="screenshot_only text-center text-white-50 mb-3"><small>これは非公式のチャットボットです。</small></p>
+              <p class="screenshot_hide text-center text-white-50 mt-2"><small>この会話はサーバーの記録に残りません。</small></p>
               <div class="d-flex justify-content-start mt-2 mb-4" id="bot_message_template" style="display: none !important;">
                 <div class="img_cont_msg">
                   <img src="" alt="" class="rounded-circle user_img user_img_msg">
                 </div>
                 <div class="msg_cotainer_bot">
-                  <span class="msg_body bot"><!-- message --></span>
+                  <span class="msg_body bot"><i class="far fa-comment-dots voice_available_mark screenshot_hide text-black-50 ms-2"></i><!-- message --></span>
                   <span class="msg_time"><!-- timestamp --></span>
                 </div>
               </div>

@@ -11,7 +11,12 @@ windowResized();
 
 function isMobile() {
     const ua = navigator.userAgent;
-    return ua.indexOf('iPhone') > -1 || ua.indexOf('iPad') > -1 || ua.indexOf('Android') > -1;
+    return ua.indexOf('iPhone') >= 0 || ua.indexOf('iPad') >= 0 || ua.indexOf("iPod") >= 0 || ua.indexOf('Android') >= 0;
+}
+
+function isAppleDevice() {
+    const ua = navigator.userAgent;
+    return ua.indexOf("iPhone") >= 0 || ua.indexOf("iPad") >= 0 || ua.indexOf("iPod") >= 0;
 }
 
 /* キャラクター選択 */
@@ -45,13 +50,18 @@ var voiceOn = true;
 function setVoiceOn() {
     $("#voiceSwitchButton i").removeClass("fa-volume-mute");
     $("#voiceSwitchButton i").addClass("fa-volume-up");
-    $("#voiceOnNotice").css({"display": "inline-block"});
+    if (isAppleDevice()) {
+        $("#tapVoiceOnNotice").css({"display": "inline-block"});
+    } else {
+        $("#autoVoiceOnNotice").css({"display": "inline-block"});
+    }
     voiceOn = true;
 }
 function setVoiceOff() {
     $("#voiceSwitchButton i").removeClass("fa-volume-up");
     $("#voiceSwitchButton i").addClass("fa-volume-mute");
-    $("#voiceOnNotice").css({"display": "none"});
+    $("#autoVoiceOnNotice").css({"display": "none"});
+    $("#tapVoiceOnNotice").css({"display": "none"});
     voiceOn = false;
 }
 $("#voiceSwitchButton").on("click", function(e){
@@ -61,6 +71,7 @@ $("#voiceSwitchButton").on("click", function(e){
         setVoiceOn();
     }
 });
+setVoiceOn();
 
 /* クエリ送信 */
 
@@ -103,8 +114,8 @@ function sendTextRequest(context) {
     .done(function(response) {
         try {
             if (voiceOn) {
-                let callback = function() {
-                    addBotMessage(response);
+                let callback = function(response, voiceAudio) {
+                    addBotMessage(response, voiceAudio);
                 }
                 sendVoiceRequest(response, callback);
             } else {
@@ -147,12 +158,16 @@ function sendVoiceRequest(text, callback) {
     xhr.setRequestHeader("Content-Type", "application/json")
     xhr.responseType = 'arraybuffer';
     xhr.onload = function(e) {
-        let voiceBlob = new Blob([xhr.response], {type: "audio/ogg"});
-        let voiceUrl = URL.createObjectURL(voiceBlob);
-        $("audio #voice").attr("src", voiceUrl);
-        $("audio").get(0).load();
-        $("audio").get(0).play();
-        callback();
+        if (voiceOn) {
+            let voiceBlob = new Blob([xhr.response], {type: "audio/ogg"});
+            let voiceUrl = URL.createObjectURL(voiceBlob);
+            let voiceAudio = new Audio(voiceUrl);
+            voiceAudio.load();
+            voiceAudio.play();
+            callback(text, voiceAudio);
+        } else {
+            callback(text);
+        }
         enableForm();
     };
     xhr.onerror = function(e) {
@@ -162,48 +177,16 @@ function sendVoiceRequest(text, callback) {
     }
 
     xhr.send(JSON.stringify(request));
-/*
-    $.ajax({type: "post",
-            contentType: 'application/json',
-            data: JSON.stringify(request),
-            dataType: 'binary',
-            responseType:'arraybuffer',
-            processData: false,
-            timespan: 30000,
-            async: false,
-            url: 'https://asia-northeast2-yuyuyui-script-search-20200915.cloudfunctions.net/speech-synthesis'})
-    .done(function(voiceData) {
-        try {
-            var base64 = window.btoa(unescape(encodeURIComponent(voiceData)));
-            $('audio #voice').attr('src', "data:audio/ogg;base64," + base64);
-            $('audio').get(0).load();
-            $('audio').get(0).play();
-            voice = new Audio("data:audio/ogg;base64," + base64);
-            voice.play();
-            voice = new Audio(voiceData);
-            voice.play();
-        } catch (error) {
-            throw error;
-        }
-    })
-    .fail(function(jqXHR, textStatus, errorThrown) {
-        const error_descriptions = {
-            0:   "音声サーバーに接続できません。引き続き発生する場合はしばらく待ってからお試しください。",
-            400: "音声リクエストを読み取れませんでした。",
-            408: "音声サーバーが混み合っている可能性があります。引き続き発生する場合はしばらく待ってからお試しください。",
-            500: "音声サーバーでエラーが発生しました。",
-        };
-        let message = "";
-        if (error_descriptions[jqXHR.status]) {
-            message += "エラー：" + error_descriptions[jqXHR.status];
-        } else {
-            message += "エラー";
-        }
-        message += `(${jqXHR.readyState}, ${jqXHR.status}, ${textStatus}, ${errorThrown.message})`;
-        addErrorMessage(message);
-    })
-    .always(function() {
-    })*/
+}
+
+/* 音声再生 */
+
+function onBotMessageClick(e) {
+    if (voiceOn) {
+        let voiceAudio = $(this).find("audio").get(0);
+        voiceAudio.load();
+        voiceAudio.play();
+    }
 }
 
 /* メッセージ追加 */
@@ -214,12 +197,18 @@ function addUserMessage(message) {
     addMessage(parent, template, message);
 }
 
-function addBotMessage(message) {
+function addBotMessage(message, voiceAudio) {
     const parent = $("#bot_message_template").parent()
     const template = $("#bot_message_template").clone().attr('id', null).attr('style', null);
+    const voice_available_mark = template.find(".voice_available_mark").clone();
     template.find(".user_img_msg").attr("src", "icon/" + character + ".png")
                                   .attr("alt", character);
     addMessage(parent, template, message);
+    if (voiceAudio) {
+        template.find(".msg_body").append(voice_available_mark);
+        template.find(".msg_body").append(voiceAudio);
+        template.find(".msg_body").on("click", onBotMessageClick);
+    }
 }
 
 function addErrorMessage(message) {
