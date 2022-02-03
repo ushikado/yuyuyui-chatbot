@@ -159,7 +159,7 @@ function sendVoiceRequest(text, callback) {
     xhr.responseType = 'arraybuffer';
     xhr.onload = function(e) {
         if (voiceOn) {
-            let voiceBlob = new Blob([xhr.response], {type: "audio/ogg"});
+            let voiceBlob = new Blob([xhr.response], {type: "audio/mp3"});
             let voiceUrl = URL.createObjectURL(voiceBlob);
             let voiceAudio = new Audio(voiceUrl);
             voiceAudio.load();
@@ -171,8 +171,8 @@ function sendVoiceRequest(text, callback) {
         enableForm();
     };
     xhr.onerror = function(e) {
-        addErrorMessage(`音声が取得できませんでした。 (${xhr.statusText})`);
-        callback();
+        addErrorMessage(`音声が取得できませんでした。`);
+        callback(text);
         enableForm();
     }
 
@@ -205,9 +205,10 @@ function addBotMessage(message, voiceAudio) {
                                   .attr("alt", character);
     addMessage(parent, template, message);
     if (voiceAudio) {
+        template.find(".msg_cotainer_bot").addClass("voice_available");
         template.find(".msg_body").append(voice_available_mark);
         template.find(".msg_body").append(voiceAudio);
-        template.find(".msg_body").on("click", onBotMessageClick);
+        template.find(".msg_cotainer_bot").get(0).addEventListener("click", onBotMessageClick, false);
     }
 }
 

@@ -243,6 +243,10 @@ html {
   position: relative;
 }
 
+.msg_cotainer_bot.voice_available{
+  cursor: pointer;
+}
+
 .msg_cotainer_usr {
   margin-top: auto;
   margin-bottom: auto;
