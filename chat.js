@@ -14,11 +14,6 @@ function isMobile() {
     return ua.indexOf('iPhone') >= 0 || ua.indexOf('iPad') >= 0 || ua.indexOf("iPod") >= 0 || ua.indexOf('Android') >= 0;
 }
 
-function isAppleDevice() {
-    const ua = navigator.userAgent;
-    return ua.indexOf("iPhone") >= 0 || ua.indexOf("iPad") >= 0 || ua.indexOf("iPod") >= 0;
-}
-
 /* キャラクター選択 */
 
 var character = decodeURIComponent(location.hash.trim().replace("#", ""));
@@ -50,18 +45,13 @@ var voiceOn = true;
 function setVoiceOn() {
     $("#voiceSwitchButton i").removeClass("fa-volume-mute");
     $("#voiceSwitchButton i").addClass("fa-volume-up");
-    if (isAppleDevice()) {
-        $("#tapVoiceOnNotice").css({"display": "inline-block"});
-    } else {
-        $("#autoVoiceOnNotice").css({"display": "inline-block"});
-    }
+    $("#autoVoiceOnNotice").css({"display": "inline-block"});
     voiceOn = true;
 }
 function setVoiceOff() {
     $("#voiceSwitchButton i").removeClass("fa-volume-up");
     $("#voiceSwitchButton i").addClass("fa-volume-mute");
     $("#autoVoiceOnNotice").css({"display": "none"});
-    $("#tapVoiceOnNotice").css({"display": "none"});
     voiceOn = false;
 }
 $("#voiceSwitchButton").on("click", function(e){
